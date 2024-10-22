@@ -17,7 +17,7 @@ export const Button = ({
     const colorClass = color ? `btn-${color}` : "";
     const sizeClass = size ? `btn-${size}` : "";
     const variantClass = variant ? `btn-${variant}` : "";
-    const widthClass = width ? `w-${width}` : "";
+    const widthClass = width ? `btn-${width}` : "";
     const shapeClass = shape ? `btn-${shape}` : "";
     const disabledClass = disabled ? `btn-disabled` : "";
 

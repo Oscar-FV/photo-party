@@ -4,11 +4,12 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   safelist: [
     {
       pattern:
-        /.*-(neutral|primary|secondary|accent|info|success|warning|error|ghost|outline|wide|circle|link)/,
+        /.*-(neutral|primary|secondary|accent|info|success|warning|error|ghost|outline|wide|circle|link|xs|sm)/,
     },
   ],
   theme: {
@@ -68,6 +69,22 @@ module.exports = {
           900: "#080808",
           950: "#050505",
         },
+      },
+      backgroundImage: {
+        "gradient-text":
+          'linear-gradient(270deg, theme("colors.primary.500"), theme("colors.accent.500"), theme("colors.secondary.500"), theme("colors.accent.500"), theme("colors.primary.500"), theme("colors.accent.500"), theme("colors.secondary.500"))',
+      },
+      backgroundSize: {
+        300: "300% 300%",
+      },
+      keyframes: {
+        gradient: {
+          "0%": { backgroundPosition: "0% 50%" },
+          "100%": { backgroundPosition: "100% 50%" },
+        },
+      },
+      animation: {
+        gradient: "gradient 4s linear infinite",
       },
     },
   },
