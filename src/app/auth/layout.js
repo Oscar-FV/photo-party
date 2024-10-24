@@ -5,7 +5,7 @@ import AnimatedGradientText from "../../common/atoms/animatedGradientText/Animat
 
 export default function AuthLayout({ children }) {
   return (
-    <div className="grid grid-rows-[auto_1fr_auto] gap-y-2 h-[100svh] justify-center p-5">
+    <div className="grid grid-rows-[auto_1fr_auto] gap-y-2 h-[100dvh] justify-center p-5">
       <div className="flex flex-col justify-center items-center">
         <Image
           src="/logo.png"

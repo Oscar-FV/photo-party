@@ -3,6 +3,7 @@ import React from "react";
 
 export const Button = ({
     children,
+    className,
     color = "ghost",
     size,
     variant = "",
@@ -24,7 +25,7 @@ export const Button = ({
 
     return (
         <button
-            className={`${baseClass} ${colorClass} ${sizeClass} ${variantClass} ${widthClass} ${shapeClass} ${disabledClass}`}
+            className={`${baseClass} ${colorClass} ${sizeClass} ${variantClass} ${widthClass} ${shapeClass} ${disabledClass} ${className}`}
             onClick={onClick}
             type={type}
         >
