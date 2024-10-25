@@ -33,10 +33,6 @@ const PartyPage = () => {
 
       <h2 className="mt-5 font-medium text-lg pl-2"> Tu galería </h2>
       <Gallery>
-        <GalleryItem
-          imgSrc={"https://picsum.photos/800/600"}
-          imgCaption={"hola-mundo"}
-        ></GalleryItem>
       </Gallery>
     </>
   );

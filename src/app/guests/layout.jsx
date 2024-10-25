@@ -5,7 +5,7 @@ import AnimatedGradientText from "../../common/atoms/animatedGradientText/Animat
 export default function PartyLayout({ children }) {
   return (
     <>
-      <div className="min-h-[100dvh] pb-16">
+      <div className="min-h-[100dvh]">
         {children}
         <Navbar />
       </div>

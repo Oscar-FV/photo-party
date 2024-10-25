@@ -64,7 +64,7 @@ const CountdownPage = () => {
         </p>
       </div>
 
-      <div className="relative max-w-md w-full mt-auto mb-10">
+      <div className="relative max-w-md w-full mb-20">
         <div className="absolute -inset-0.5 bg-info rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
         <div
           role="alert"

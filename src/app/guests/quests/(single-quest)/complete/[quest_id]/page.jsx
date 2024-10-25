@@ -53,13 +53,12 @@ const CompleteQuestsPage = () => {
         </>
       ) : (
         <>
-          <div class="aspect-square relative max-h-[500px]">
+          <div className="aspect-square relative">
             <Image
               src={imageSrc}
               layout="fill"
               objectFit="cover"
               alt={"Foto capturada"}
-              className="border-[0.5px] border-neutral-900"
             />
             <span className="flex absolute w-full justify-center bottom-0 mb-4">
               <Button

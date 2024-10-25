@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const GalleryItem = ({ imgSrc, imgCaption }) => {
+const GalleryItem = ({ imgSrc, imgCaption, onClick }) => {
   return (
     <div class="aspect-square relative">
       <Image
@@ -9,7 +9,8 @@ const GalleryItem = ({ imgSrc, imgCaption }) => {
         layout="fill"
         objectFit="cover"
         alt={imgCaption}
-        className="border-[0.5px] border-neutral-900"
+        className="border-[0.6px] border-neutral-900"
+        onClick={onClick}
       />
     </div>
   );

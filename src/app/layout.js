@@ -18,7 +18,7 @@ export default function RootLayout({ children }) {
   return (
     <html data-theme="fiestaTheme" lang="en">
       <Providers>
-        <body className={`${outfit.variable} antialiased`}>{children}</body>
+        <body suppressHydrationWarning={true}  className={`${outfit.variable} antialiased`}>{children}</body>
       </Providers>
     </html>
   );
