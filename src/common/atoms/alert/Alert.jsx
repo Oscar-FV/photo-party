@@ -7,7 +7,7 @@ const Alert = () => {
   const { showAlert, setShowAlert } = useAlert();
   const { show, message, type } = showAlert;
   const [animationClass, setAnimationClass] = useState(
-    "animate-slide-in-right"
+    "slide-in-top"
   );
 
   useEffect(() => {
@@ -65,8 +65,8 @@ const Alert = () => {
             />
           </svg>
         )}
-        <span className="text-sm">
-          {type.toUpperCase()} - {message}
+        <span className="text-sm text-start">
+          {message}
         </span>
       </div>
     </div>
