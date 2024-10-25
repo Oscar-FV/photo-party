@@ -45,7 +45,6 @@ const authOptions = {
     async jwt({ token, user }) {
       // Si el usuario inicia sesión por primera vez
       if (user) {
-        console.log(token)
         token.accessToken = user.jwt; // Guarda el accessToken del backend
         token.refreshToken = user.refreshToken; // Guarda el refreshToken
         token.accessTokenExpires = Date.now() + 30 * 60 * 1000; // Configura la expiración (30 minutos)
