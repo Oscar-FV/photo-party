@@ -4,6 +4,7 @@ import Image from "next/image";
 import AnimatedGradientText from "../../common/atoms/animatedGradientText/AnimatedGradientText";
 
 export default function AuthLayout({ children }) {
+
   return (
     <div className="grid grid-rows-[auto_1fr_auto] gap-y-2 h-[100dvh] justify-center p-5">
       <div className="flex flex-col justify-center items-center">
@@ -12,6 +13,7 @@ export default function AuthLayout({ children }) {
           width={150}
           height={150}
           alt="photo-party logo"
+          priority={true}
         />
         <div className="-mt-5">
           <h3 className="text-4xl text-center">Bienvenidx a</h3>

@@ -48,7 +48,7 @@ const LoginPage = () => {
 
     <div className="mt-4 flex flex-col">
         <Button color="primary" width="block" onClick={handdleLogin}> ¡Que comience la fiesta! </Button>
-        <Button color="ghost" width="block" size={"xs"}> ¿Aun no tienes cuenta? ¡Registrate! </Button>
+        <Button color="ghost" width="block" size={"xs"} className={"mt-3"}> ¿Aún no tienes cuenta? ¡Registrate! </Button>
     </div>
   </div>;
 };
