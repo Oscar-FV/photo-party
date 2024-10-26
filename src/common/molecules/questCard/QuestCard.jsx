@@ -21,9 +21,9 @@ const QuestCard = ({
       className={`relative grid grid-rows-[auto_1fr_auto] ${colorClass} rounded-[16px] px-8 py-3 ${className}`}
     >
       <div className="flex  justify-between">
-        <h3 className="grow font-semibold text-xl text-base-100 leading-none">{title}</h3>
+        <h3 className="grow font-semibold text-lg text-base-100 leading-none">{title}</h3>
         {isCompleted && (
-          <span className="badge badge-success text-xs">Completado</span>
+          <span className="badge badge-success text-sm font-medium">Completado</span>
         )}
       </div>
       <p className="text-xs text-base-100 mt-1">{description}</p>
