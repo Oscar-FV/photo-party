@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useRef } from "react";
 import Image from "next/image";
-import { Button } from "../../../../../common/atoms/button/Button";
+import {Button} from "../../../../../../common/atoms/button/Button"
 import { Icon } from "@iconify/react";
 
 const CompleteQuestsPage = () => {

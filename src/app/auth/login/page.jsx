@@ -83,7 +83,7 @@ const LoginPage = () => {
             >
               ¡Que comience la fiesta!
             </Button>
-            <Button color="ghost" width="block" size={"xs"} className={"mt-3"}>
+            <Button color="ghost" width="block" size={"xs"} className={"mt-3"} onClick={() => {router.push("/auth/signup")}}>
               ¿Aún no tienes cuenta? ¡Registrate!
             </Button>
           </div>
