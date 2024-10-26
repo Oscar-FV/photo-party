@@ -18,39 +18,56 @@ const CountdownPage = () => {
     fetchInit: false,
   });
 
-  const [timeLeft, setTimeLeft] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(null); // Inicializamos en `null` para diferenciar el estado inicial
+  const [intervalId, setIntervalId] = useState(null); // Guardamos el ID del intervalo para controlarlo
 
+  // Fetch event data when session is available
   useEffect(() => {
     if (session) {
       fetchEvent({ body: { token: token } });
     }
   }, [session]);
 
+  // Calculate initial time left when event data is available
   useEffect(() => {
     if (event?.starts_at) {
-      // Convierte starts_at a una fecha en la zona horaria local del usuario
       const eventStartTime = new Date(event.starts_at).getTime();
       const now = Date.now();
       const timeRemaining = Math.max((eventStartTime - now) / 1000, 0); // en segundos
       setTimeLeft(timeRemaining);
+
+      // Si el intervalo existe, lo limpiamos antes de crear uno nuevo
+      if (intervalId) clearInterval(intervalId);
+
+      // Configuramos el intervalo solo si el tiempo restante es mayor a 0
+      if (timeRemaining > 0) {
+        const newIntervalId = setInterval(() => {
+          setTimeLeft((prevTime) => {
+            if (prevTime > 1) {
+              return prevTime - 1;
+            } else {
+              clearInterval(newIntervalId);
+              router.push("/guests/party");
+              return 0;
+            }
+          });
+        }, 1000);
+
+        // Guardamos el ID del nuevo intervalo
+        setIntervalId(newIntervalId);
+      } else {
+        // Redirige inmediatamente si el tiempo restante es 0 o menos
+        router.push("/guests/party");
+      }
     }
-  }, [event]);
+  }, [event, router]);
 
+  // Limpiar el intervalo cuando el componente se desmonta
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTimeLeft((prevTime) => {
-        if (prevTime > 1) {
-          return prevTime - 1;
-        } else {
-          clearInterval(interval);
-          router.push("/guests/party");
-          return 0;
-        }
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [router]);
+    return () => {
+      if (intervalId) clearInterval(intervalId);
+    };
+  }, [intervalId]);
 
   const formatTime = () => {
     const days = Math.floor(timeLeft / (24 * 60 * 60));
@@ -65,7 +82,7 @@ const CountdownPage = () => {
 
   return (
     <>
-      {loadingEvent || !session ? (
+      {loadingEvent || !session || timeLeft === null ? (
         <div className="flex flex-col items-center justify-center relative w-full h-[100svh]">
           <Image
             src="/logo.png"

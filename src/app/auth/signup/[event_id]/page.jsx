@@ -36,18 +36,18 @@ const SignIn = () => {
       params: { email: values?.username, password: values?.password },
     });
 
+    console.log(registerResponse)
     if (!registerResponse.ok) {
-      setIsSubmitting(false);
       const errorData = await registerResponse.json();
       setShowAlert({
         show: true,
         message: errorData.detail,
         type: "error",
       });
+      setIsSubmitting(false);
     } else {
       handdleLogin(values);
     }
-    setIsSubmitting(false);
   };
 
   const handdleLogin = async (values) => {
@@ -71,11 +71,17 @@ const SignIn = () => {
         username: Yup.string().required("Este campo es obligatorio."),
         password: Yup.string()
           .min(8, "La contraseña debe tener al menos 8 caracteres.")
-          .matches(/[A-Z]/, "La contraseña debe tener al menos una letra mayúscula.")
+          .matches(
+            /[A-Z]/,
+            "La contraseña debe tener al menos una letra mayúscula."
+          )
           .matches(/[0-9]/, "La contraseña debe tener al menos un número.")
           .required("Este campo es obligatorio."),
         confirmpassword: Yup.string()
-          .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir.")
+          .oneOf(
+            [Yup.ref("password"), null],
+            "Las contraseñas deben coincidir."
+          )
           .required("Por favor confirma tu contraseña."),
       })}
       onSubmit={handdleSignUp}

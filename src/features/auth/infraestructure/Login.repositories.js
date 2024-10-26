@@ -15,7 +15,6 @@ export const register = async ({ params }) => {
         },
       }),
       headers: {
-        "ngrok-skip-browser-warning": "true",
         "Content-Type": "application/json",
       },
     });
