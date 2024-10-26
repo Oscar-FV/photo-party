@@ -45,7 +45,7 @@ const QuestCard = ({
           size={"sm"}
           className="border border-base-100 bg-white text-base-100 mt-1 w-[130px] text-xs"
           onClick={() => {
-            router.push(`/guests/quests/${id}`);
+            router.push(`/guests/quests/${id}/${isCompleted}`);
           }}
         >
           Ver galería

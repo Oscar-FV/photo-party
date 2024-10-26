@@ -2,17 +2,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { useFetch } from "../../../../../../hooks/useFetch/useFetch";
-import { getQuestGallery } from "../../../../../services/posts/posts";
-import Gallery from "../../../../../../common/molecules/gallery/Gallery";
-import { Button } from "../../../../../../common/atoms/button/Button";
+import { useFetch } from "../../../../../../../hooks/useFetch/useFetch";
+import { getQuestGallery } from "../../../../../../services/posts/posts";
+import Gallery from "../../../../../../../common/molecules/gallery/Gallery";
+import { Button } from "../../../../../../../common/atoms/button/Button";
 
 const SingleQuestPage = () => {
   const { data: session } = useSession();
   const token = session?.accessToken;
   const params = useParams();
   const router = useRouter();
-  const { quest_id } = params;
+  const { quest_id, is_completed } = params;
 
   const [posts, setPosts] = useState([]); // Estado para almacenar los posts
   const [skip, setSkip] = useState(0); // Estado para manejar la paginación
@@ -53,7 +53,7 @@ const SingleQuestPage = () => {
   return (
     <>
       <div className="mx-2">
-        <Button color="accent" size={"sm"} className={"w-full"} onClick={() => {router.push(`/guests/quests/complete/${quest_id}`)}}>
+        <Button disabled={is_completed} color="accent" size={"sm"} className={"w-full"} onClick={() => {router.push(`/guests/quests/complete/${quest_id}`)}}>
           ¡Completa la misión!
         </Button>
         <h2 className="text-lg font-medium mt-5"> Galería de la misión </h2>
