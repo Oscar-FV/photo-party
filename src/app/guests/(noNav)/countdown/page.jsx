@@ -28,9 +28,10 @@ const CountdownPage = () => {
 
   useEffect(() => {
     if (event?.starts_at) {
+      // Convierte starts_at a una fecha en la zona horaria local del usuario
       const eventStartTime = new Date(event.starts_at).getTime();
       const now = Date.now();
-      const timeRemaining = Math.max((eventStartTime - now) / 1000, 0);
+      const timeRemaining = Math.max((eventStartTime - now) / 1000, 0); // en segundos
       setTimeLeft(timeRemaining);
     }
   }, [event]);
@@ -42,7 +43,7 @@ const CountdownPage = () => {
           return prevTime - 1;
         } else {
           clearInterval(interval);
-          router.push("/guests/party"); 
+          router.push("/guests/party");
           return 0;
         }
       });
