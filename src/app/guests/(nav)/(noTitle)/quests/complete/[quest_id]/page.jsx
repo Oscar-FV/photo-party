@@ -102,7 +102,7 @@ const CompleteQuestsPage = () => {
           </Button>
         </div>
       ) : (
-        <div className="aspect-square relative">
+        <div className="aspect-square relative max-w-screen w-full mx-auto">
           <Image
             src={imageSrc}
             layout="fill"
@@ -130,7 +130,7 @@ const CompleteQuestsPage = () => {
         validationSchema={Yup.object({
           text: Yup.string().max(100, "El campo es de máximo 100 caracteres."),
         })}
-        className="m-2 flex flex-col"
+        className="m-2 flex flex-col mb-24"
       >
         {({ isValid }) => (
           <>

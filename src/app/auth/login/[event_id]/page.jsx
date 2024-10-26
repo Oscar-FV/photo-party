@@ -89,7 +89,7 @@ const LoginPage = () => {
                 router.push(`/auth/signup/${event_id}`); // Usa la URL con segmentos dinámicos
               }}
             >
-              ¿Aún no tienes cuenta? ¡Registrate!
+              ¿Aún no tienes cuenta? ¡Regístrate!"
             </Button>
           </div>
         </>
