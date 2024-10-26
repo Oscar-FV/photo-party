@@ -7,7 +7,7 @@ import * as Yup from "yup";
 import { Icon } from "@iconify/react";
 import { Button } from "../../../../../../../common/atoms/button/Button";
 import FormWrapper from "../../../../../../../common/atoms/forms/formWrapper/FormWrapper";
-import Textarea from "../../../../../../../common/atoms/forms/textarea";
+import Textarea from "../../../../../../../common/atoms/forms/Textarea";
 import { useFetch } from "../../../../../../../hooks/useFetch/useFetch";
 import { savePhoto, createPost } from "../../../../../../services/posts/posts";
 
