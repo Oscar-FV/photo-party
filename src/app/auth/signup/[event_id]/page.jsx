@@ -1,25 +1,23 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { redirect, useRouter, useParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import * as Yup from "yup";
-import { Button } from "../../../common/atoms/button/Button";
-import Input from "../../../common/atoms/forms/Input";
-import PasswordInput from "../../../common/atoms/forms/PasswordInput";
-import FormWrapper from "../../../common/atoms/forms/formWrapper/FormWrapper";
-import { useAlert } from "../../../hooks/useAlert/useAlert";
-import { useFetch } from "../../../hooks/useFetch/useFetch";
-import { register } from "../../../features/auth/infraestructure/Login.repositories";
-import Image from "next/image";
+import { Button } from "../../../../common/atoms/button/Button";
+import Input from "../../../../common/atoms/forms/Input";
+import PasswordInput from "../../../../common/atoms/forms/PasswordInput";
+import FormWrapper from "../../../../common/atoms/forms/formWrapper/FormWrapper";
+import { useAlert } from "../../../../hooks/useAlert/useAlert";
+import { useFetch } from "../../../../hooks/useFetch/useFetch";
+import { register } from "../../../../features/auth/infraestructure/Login.repositories";
 
-const SignUpComponent = () => {
+const SignIn = () => {
   const { setShowAlert } = useAlert();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const event_id = searchParams.get("event_id");
+  const { event_id } = useParams(); // Obtiene event_id desde params
 
   const [, setRegister, isRegistering] = useFetch({
     functionFetch: register,
@@ -35,7 +33,7 @@ const SignUpComponent = () => {
   const handdleSignUp = async (values) => {
     setIsSubmitting(true);
     const registerResponse = await setRegister({
-      params: { email: values.username, password: values.password },
+      params: { email: values?.username, password: values?.password },
     });
 
     if (!registerResponse.ok) {
@@ -56,9 +54,9 @@ const SignUpComponent = () => {
     await signIn("credentials", {
       redirect: false,
       redirectTo: "/guests/countdown",
-      email: values.username,
-      password: values.password,
-      event_id: event_id,
+      email: values?.username,
+      password: values?.password,
+      event_id, // Pasa event_id desde params
     });
   };
 
@@ -73,17 +71,11 @@ const SignUpComponent = () => {
         username: Yup.string().required("Este campo es obligatorio."),
         password: Yup.string()
           .min(8, "La contraseña debe tener al menos 8 caracteres.")
-          .matches(
-            /[A-Z]/,
-            "La contraseña debe tener al menos una letra mayúscula."
-          )
+          .matches(/[A-Z]/, "La contraseña debe tener al menos una letra mayúscula.")
           .matches(/[0-9]/, "La contraseña debe tener al menos un número.")
           .required("Este campo es obligatorio."),
         confirmpassword: Yup.string()
-          .oneOf(
-            [Yup.ref("password"), null],
-            "Las contraseñas deben coincidir."
-          )
+          .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir.")
           .required("Por favor confirma tu contraseña."),
       })}
       onSubmit={handdleSignUp}
@@ -91,12 +83,19 @@ const SignUpComponent = () => {
     >
       {({ isValid }) => (
         <>
-          <Input name="username" placeholder="Ingresa un nombre de usuario" />
-          <PasswordInput name="password" placeholder="Ingresa tu contraseña" />
-          <PasswordInput
-            name="confirmpassword"
-            placeholder="Confirma tu contraseña"
+          <Input
+            name={"username"}
+            placeholder={"Ingresa un nombre de usuario"}
           />
+          <PasswordInput
+            name={"password"}
+            placeholder={"Ingresa tu contraseña"}
+          />
+          <PasswordInput
+            name={"confirmpassword"}
+            placeholder={"Confirma tu contraseña"}
+          />
+
           <div className="mt-4 flex flex-col">
             <Button
               type="submit"
@@ -113,25 +112,5 @@ const SignUpComponent = () => {
     </FormWrapper>
   );
 };
-
-const SignIn = () => (
-  <Suspense
-    fallback={
-      <div className="flex flex-col items-center justify-center relative w-full h-[100svh]">
-        <Image
-          src="/logo.png"
-          width={200}
-          height={200}
-          alt="photo-party-logo"
-          priority={true}
-          className={"pulsate-bck"}
-        />
-        <h2 className="text-xl font-semibold text-primary-500">Cargando...</h2>
-      </div>
-    }
-  >
-    <SignUpComponent />
-  </Suspense>
-);
 
 export default SignIn;

@@ -1,23 +1,21 @@
 "use client";
 
-import React, { Suspense, useEffect, useState } from "react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { redirect, useRouter, useParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import * as Yup from "yup";
-import { Button } from "../../../common/atoms/button/Button";
-import Input from "../../../common/atoms/forms/Input";
-import PasswordInput from "../../../common/atoms/forms/PasswordInput";
-import FormWrapper from "../../../common/atoms/forms/formWrapper/FormWrapper";
-import { useAlert } from "../../../hooks/useAlert/useAlert";
-import Image from "next/image";
+import { Button } from "../../../../common/atoms/button/Button";
+import Input from "../../../../common/atoms/forms/Input";
+import PasswordInput from "../../../../common/atoms/forms/PasswordInput";
+import FormWrapper from "../../../../common/atoms/forms/formWrapper/FormWrapper";
+import { useAlert } from "../../../../hooks/useAlert/useAlert";
 
-const LoginComponent = () => {
+const LoginPage = () => {
   const { setShowAlert } = useAlert();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const event_id = searchParams.get("event_id");
+  const { event_id } = useParams(); // Obtiene event_id desde los params
 
   useEffect(() => {
     if (status === "authenticated") {
@@ -30,27 +28,36 @@ const LoginComponent = () => {
     const result = await signIn("credentials", {
       redirect: false,
       redirectTo: "/guests/countdown",
-      email: values.username,
-      password: values.password,
-      event_id: event_id,
+      email: values?.username,
+      password: values?.password,
+      event_id, // Pasa event_id desde params
     });
 
     if (result?.error) {
-      setShowAlert({
-        show: true,
-        message:
-          result.status === 401
-            ? "Credenciales incorrectas. Por favor, verifica tu nombre de usuario y contraseña."
-            : "Ocurrió un error. Por favor, intenta nuevamente.",
-        type: "error",
-      });
+      if (result.status === 401) {
+        setShowAlert({
+          show: true,
+          message:
+            "Credenciales incorrectas. Por favor, verifica tu nombre de usuario y contraseña.",
+          type: "error",
+        });
+      } else {
+        setShowAlert({
+          show: true,
+          message: "Ocurrió un error. Por favor, intenta nuevamente.",
+          type: "error",
+        });
+      }
       setIsSubmitting(false);
     }
   };
 
   return (
     <FormWrapper
-      initialValues={{ username: "", password: "" }}
+      initialValues={{
+        username: "",
+        password: "",
+      }}
       validationSchema={Yup.object({
         username: Yup.string().required("Este campo es obligatorio."),
         password: Yup.string().required("Este campo es obligatorio."),
@@ -62,6 +69,7 @@ const LoginComponent = () => {
         <>
           <Input name="username" placeholder="Ingresa tu nombre de usuario" />
           <PasswordInput name="password" placeholder="Ingresa tu contraseña" />
+
           <div className="mt-4 flex flex-col">
             <Button
               type="submit"
@@ -77,7 +85,9 @@ const LoginComponent = () => {
               width="block"
               size="xs"
               className="mt-3"
-              onClick={() => router.push(`/auth/signup?event_id=${event_id}`)}
+              onClick={() => {
+                router.push(`/auth/signup/${event_id}`); // Usa la URL con segmentos dinámicos
+              }}
             >
               ¿Aún no tienes cuenta? ¡Registrate!
             </Button>
@@ -87,25 +97,5 @@ const LoginComponent = () => {
     </FormWrapper>
   );
 };
-
-const LoginPage = () => (
-  <Suspense
-    fallback={
-      <div className="flex flex-col items-center justify-center relative w-full h-[100svh]">
-        <Image
-          src="/logo.png"
-          width={200}
-          height={200}
-          alt="photo-party-logo"
-          priority={true}
-          className={"pulsate-bck"}
-        />
-        <h2 className="text-xl font-semibold text-primary-500">Cargando...</h2>
-      </div>
-    }
-  >
-    <LoginComponent />
-  </Suspense>
-);
 
 export default LoginPage;
