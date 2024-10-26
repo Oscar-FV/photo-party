@@ -9,8 +9,6 @@ const Navbar = () => {
   const { data: session } = useSession(); // Obtener la sesión
 
   const eventId = session?.event_id;
-  
-
   return (
     <div className="btm-nav btm-nav-md py-2 box-content fixed bottom-0 z-10">
       <Link href={"/guests/party"} className={pathname.includes("party") ? "active text-primary-500" : ""}>

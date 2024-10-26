@@ -29,7 +29,7 @@ const CompleteQuestsPage = () => {
   const [, addPost] = useFetch({
     functionFetch: createPost,
     fetchInit: false,
-    showAlertSuccess: "¡Misión completada!"
+    showAlertSuccess: "¡Misión completada!",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -84,7 +84,6 @@ const CompleteQuestsPage = () => {
       setIsSubmitting(false);
       console.error("Error al completar la misión:", error.message);
     }
-    setIsSubmitting(false);
   };
 
   return (
@@ -102,57 +101,63 @@ const CompleteQuestsPage = () => {
           </Button>
         </div>
       ) : (
-        <div className="aspect-square relative max-w-screen w-full mx-auto">
-          <Image
-            src={imageSrc}
-            layout="fill"
-            objectFit="cover"
-            alt={"Foto capturada"}
-          />
-          <span className="flex absolute w-full justify-center bottom-0 mb-4">
-            <Button
-              color="accent"
-              size="sm"
-              disabled={!imageSrc || isSubmitting}
-              onClick={handleButtonClick}
-            >
-              <Icon icon="mdi:camera-retake-outline" width="24" height="24" />
-              Tomar otra foto
-            </Button>
-          </span>
-        </div>
+        <FormWrapper
+          onSubmit={handleSubmit}
+          initialValues={{
+            text: "",
+          }}
+          validationSchema={Yup.object({
+            text: Yup.string().max(
+              100,
+              "El campo es de máximo 100 caracteres."
+            ),
+          })}
+          className="m-2 flex flex-col mb-24"
+        >
+          {({ isValid }) => (
+            <>
+              <div className="aspect-square relative max-w-screen w-full mx-auto mb-2">
+                <Image
+                  src={imageSrc}
+                  layout="fill"
+                  objectFit="cover"
+                  alt={"Foto capturada"}
+                />
+                <span className="flex flex-col gap-2 absolute w-full px-20 justify-center bottom-0 mb-2">
+                  <Button
+                    color="accent"
+                    size="sm"
+                    className={"bg-opacity-50 backdrop-blur-md"}
+                    disabled={!imageSrc || isSubmitting}
+                    onClick={handleButtonClick}
+                  >
+                    <Icon
+                      icon="mdi:camera-retake-outline"
+                      width="24"
+                      height="24"
+                    />
+                    Tomar otra foto
+                  </Button>
+                  <Button
+                    color="primary"
+                    size="sm"
+                    loading={isSubmitting}
+                    className={"bg-opacity-50 backdrop-blur-md"}
+                    disabled={!imageSrc || !isValid || isSubmitting}
+                  >
+                    Completar misión
+                  </Button>
+                </span>
+              </div>
+              <Textarea
+                placeholder="Cuéntanos algo sobre este momento 🥳📷"
+                name={"text"}
+                disabled={!imageSrc}
+              />
+            </>
+          )}
+        </FormWrapper>
       )}
-      <FormWrapper
-        onSubmit={handleSubmit}
-        initialValues={{
-          text: "",
-        }}
-        validationSchema={Yup.object({
-          text: Yup.string().max(100, "El campo es de máximo 100 caracteres."),
-        })}
-        className="m-2 flex flex-col mb-24"
-      >
-        {({ isValid }) => (
-          <>
-            <Textarea
-              placeholder="Cuéntanos algo sobre este momento 🥳📷"
-              name={"text"}
-              disabled={!imageSrc}
-            />
-            <Button
-              type="submit"
-              color="primary"
-              width="wide"
-              className="w-full my-2"
-              size="sm"
-              loading={isSubmitting}
-              disabled={!imageSrc || !isValid || isSubmitting}
-            >
-              Completar misión
-            </Button>
-          </>
-        )}
-      </FormWrapper>
       <input
         type="file"
         accept="image/*"
