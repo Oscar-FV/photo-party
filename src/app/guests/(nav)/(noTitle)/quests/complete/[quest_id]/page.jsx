@@ -29,6 +29,7 @@ const CompleteQuestsPage = () => {
   const [, addPost] = useFetch({
     functionFetch: createPost,
     fetchInit: false,
+    showAlertSuccess: "¡Misión completada!"
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -55,6 +56,7 @@ const CompleteQuestsPage = () => {
   };
 
   const handleSubmit = async (values) => {
+    setIsSubmitting(true);
     try {
       // Primero, subimos la imagen
       const imgResponse = await uploadPhoto({
@@ -79,8 +81,10 @@ const CompleteQuestsPage = () => {
         }
       }
     } catch (error) {
+      setIsSubmitting(false);
       console.error("Error al completar la misión:", error.message);
     }
+    setIsSubmitting(false);
   };
 
   return (

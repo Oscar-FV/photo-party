@@ -2,7 +2,49 @@ const APIURL = process.env.NEXT_PUBLIC_API_URL;
 
 export const getUserGallery = async ({ body }) => {
   try {
-    const apiUrl = `${APIURL}/posts/user-posts`;
+    const apiUrl = `${APIURL}/posts/user-posts?skip=${body.skip}&limit=${body.limit}`;
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${body?.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error obteniendo datos del evento:", error.message);
+  }
+};
+
+export const getQuestGallery = async ({ body }) => {
+  try {
+    const apiUrl = `${APIURL}/posts/quest-posts/${body.quest_id}?skip=${body.skip}&limit=${body.limit}`;
+    const response = await fetch(apiUrl, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${body?.token}`,
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error obteniendo datos del evento:", error.message);
+  }
+};
+
+export const getEventPosts = async ({ body }) => {
+  try {
+    const apiUrl = `${APIURL}/posts?skip=${body.skip}&limit=${body.limit}`;
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {
