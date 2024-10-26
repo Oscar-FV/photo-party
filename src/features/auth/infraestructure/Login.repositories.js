@@ -15,6 +15,7 @@ export const register = async ({ params }) => {
         },
       }),
       headers: {
+        "ngrok-skip-browser-warning": "true",
         "Content-Type": "application/json",
       },
     });
@@ -35,6 +36,7 @@ export const login = async ({ params }) => {
         password: params.password,
       }),
       headers: {
+        "ngrok-skip-browser-warning": "true",
         "Content-Type": "application/json",
       },
     });
