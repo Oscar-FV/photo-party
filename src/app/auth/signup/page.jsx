@@ -1,5 +1,6 @@
 "use client";
-import React, { useEffect, useState } from "react";
+
+import React, { Suspense, useEffect, useState } from "react";
 import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import * as Yup from "yup";
@@ -10,8 +11,9 @@ import FormWrapper from "../../../common/atoms/forms/formWrapper/FormWrapper";
 import { useAlert } from "../../../hooks/useAlert/useAlert";
 import { useFetch } from "../../../hooks/useFetch/useFetch";
 import { register } from "../../../features/auth/infraestructure/Login.repositories";
+import Image from "next/image";
 
-const SignIn = () => {
+const SignUpComponent = () => {
   const { setShowAlert } = useAlert();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -25,7 +27,7 @@ const SignIn = () => {
   });
 
   useEffect(() => {
-    if (status == "authenticated") {
+    if (status === "authenticated") {
       redirect("/guests/countdown");
     }
   }, [status]);
@@ -33,8 +35,9 @@ const SignIn = () => {
   const handdleSignUp = async (values) => {
     setIsSubmitting(true);
     const registerResponse = await setRegister({
-      params: { email: values?.username, password: values?.password },
+      params: { email: values.username, password: values.password },
     });
+
     if (!registerResponse.ok) {
       setIsSubmitting(false);
       const errorData = await registerResponse.json();
@@ -53,9 +56,9 @@ const SignIn = () => {
     await signIn("credentials", {
       redirect: false,
       redirectTo: "/guests/countdown",
-      email: values?.username,
-      password: values?.password,
-      event_id: event_id
+      email: values.username,
+      password: values.password,
+      event_id: event_id,
     });
   };
 
@@ -70,11 +73,17 @@ const SignIn = () => {
         username: Yup.string().required("Este campo es obligatorio."),
         password: Yup.string()
           .min(8, "La contraseña debe tener al menos 8 caracteres.")
-          .matches(/[A-Z]/, "La contraseña debe tener al menos una letra mayúscula.")
+          .matches(
+            /[A-Z]/,
+            "La contraseña debe tener al menos una letra mayúscula."
+          )
           .matches(/[0-9]/, "La contraseña debe tener al menos un número.")
           .required("Este campo es obligatorio."),
         confirmpassword: Yup.string()
-          .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir.")
+          .oneOf(
+            [Yup.ref("password"), null],
+            "Las contraseñas deben coincidir."
+          )
           .required("Por favor confirma tu contraseña."),
       })}
       onSubmit={handdleSignUp}
@@ -82,19 +91,12 @@ const SignIn = () => {
     >
       {({ isValid }) => (
         <>
-          <Input
-            name={"username"}
-            placeholder={"Ingresa un nombre de usuario"}
-          />
+          <Input name="username" placeholder="Ingresa un nombre de usuario" />
+          <PasswordInput name="password" placeholder="Ingresa tu contraseña" />
           <PasswordInput
-            name={"password"}
-            placeholder={"Ingresa tu contraseña"}
+            name="confirmpassword"
+            placeholder="Confirma tu contraseña"
           />
-          <PasswordInput
-            name={"confirmpassword"}
-            placeholder={"Confirma tu contraseña"}
-          />
-
           <div className="mt-4 flex flex-col">
             <Button
               type="submit"
@@ -111,5 +113,25 @@ const SignIn = () => {
     </FormWrapper>
   );
 };
+
+const SignIn = () => (
+  <Suspense
+    fallback={
+      <div className="flex flex-col items-center justify-center relative w-full h-[100svh]">
+        <Image
+          src="/logo.png"
+          width={200}
+          height={200}
+          alt="photo-party-logo"
+          priority={true}
+          className={"pulsate-bck"}
+        />
+        <h2 className="text-xl font-semibold text-primary-500">Cargando...</h2>
+      </div>
+    }
+  >
+    <SignUpComponent />
+  </Suspense>
+);
 
 export default SignIn;
