@@ -1,11 +1,13 @@
 import React from "react";
 import Image from "next/image";
+import {APIURL} from "../../../utils/constants"
 
 const GalleryItem = ({ imgSrc, imgCaption, onClick }) => {
+  console.log(APIURL + imgSrc)
   return (
     <div class="aspect-square relative">
       <Image
-        src={imgSrc}
+        src={`${APIURL}${imgSrc}`}
         layout="fill"
         objectFit="cover"
         alt={imgCaption}

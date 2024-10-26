@@ -1,12 +1,18 @@
 import React from "react";
+import { useRouter} from "next/navigation";
 import Image from "next/image";
 import { Button } from "../../atoms/button/Button";
 
+
 const QuestCard = ({
+  id,
+  title,
+  description,
   color = "primary-500",
   img = "ghost",
   className = "h-[187px] max-h-[187px] min-w-[288px] w-[288px] max-w-[288px]",
 }) => {
+  const router = useRouter();
   const colorClass = `bg-${color}`;
   const imgSrc = `/${img}.png`;
 
@@ -14,10 +20,9 @@ const QuestCard = ({
     <div
       className={`relative grid grid-rows-[auto_1fr_auto] ${colorClass} rounded-[16px] px-8 py-3 ${className}`}
     >
-      <h3 className="font-semibold text-xl text-base-100">Título</h3>
+      <h3 className="font-semibold text-xl text-base-100">{title}</h3>
       <p className="text-xs text-base-100">
-        Lorem ipsum dolor sit amet consectetur. Diam praesent felis lorem
-        curabitur curabitur massa enim.
+        {description}
       </p>
       <span className="max-w-[130px]">
         <Button
@@ -26,6 +31,7 @@ const QuestCard = ({
           className={
             "text-white w-[130px] h-[35px] text-xs border border-base-100"
           }
+          onClick={() => {router.push(`/guests/quests/complete/${id}`)}}
         >
           Completar misión
         </Button>
@@ -35,6 +41,7 @@ const QuestCard = ({
           className={
             "border border-base-100 bg-white text-base-100 mt-1 w-[130px] text-xs"
           }
+          onClick={() => {router.push(`/guests/quests/${id}`)}}
         >
           Ver galería
         </Button>

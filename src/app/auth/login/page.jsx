@@ -13,9 +13,9 @@ const LoginPage = () => {
   const { setShowAlert } = useAlert();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const router = useRouter();const searchParams = useSearchParams();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const event_id = searchParams.get("event_id");
-  console.log(event_id);
 
   useEffect(() => {
     if (status == "authenticated") {

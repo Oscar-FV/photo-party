@@ -1,7 +1,7 @@
 "use client"
 import React from "react";
-import Gallery from "../../../../../common/molecules/gallery/Gallery";
-import GalleryItem from "../../../../../common/atoms/galleryItem/GalleryItem";
+import Gallery from "../../../../../../common/molecules/gallery/Gallery";
+import GalleryItem from "../../../../../../common/atoms/galleryItem/GalleryItem";
 
 const SingleQuestPage = () => {
   return (

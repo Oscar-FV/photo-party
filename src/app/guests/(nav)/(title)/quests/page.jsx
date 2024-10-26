@@ -1,6 +1,6 @@
 "use client"
 import React from "react";
-import { Button } from "../../../../common/atoms/button/Button";
+import { Button } from "../../../../../common/atoms/button/Button";
 
 const QuestsPage = () => {
   return (

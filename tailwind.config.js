@@ -9,7 +9,7 @@ module.exports = {
   safelist: [
     {
       pattern:
-        /.*-(neutral|primary|secondary|accent|info|success|warning|error|ghost|outline|wide|circle|link|xs|sm)/,
+        /.*-(neutral|primary|secondary|accent|info|success|warning|error|ghost|outline|card|wide|circle|link|xs|sm)/,
     },
   ],
   theme: {
