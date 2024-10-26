@@ -1,7 +1,9 @@
+"use client"
 import React from "react";
 
 export const Button = ({
     children,
+    className,
     color = "ghost",
     size,
     variant = "",
@@ -12,20 +14,19 @@ export const Button = ({
     loading = false,
     onClick,
 }) => {
-
     const baseClass = "btn";
     const colorClass = color ? `btn-${color}` : "";
     const sizeClass = size ? `btn-${size}` : "";
     const variantClass = variant ? `btn-${variant}` : "";
-    const widthClass = width ? `w-${width}` : "";
+    const widthClass = width ? `btn-${width}` : "";
     const shapeClass = shape ? `btn-${shape}` : "";
-    const disabledClass = disabled ? `btn-disabled` : "";
 
     return (
         <button
-            className={`${baseClass} ${colorClass} ${sizeClass} ${variantClass} ${widthClass} ${shapeClass} ${disabledClass}`}
+            className={`${baseClass} ${colorClass} ${sizeClass} ${variantClass} ${widthClass} ${shapeClass} ${className}`}
             onClick={onClick}
             type={type}
+            disabled={disabled}
         >
             {loading && <span className="loading loading-spinner"></span>}
             {children}
