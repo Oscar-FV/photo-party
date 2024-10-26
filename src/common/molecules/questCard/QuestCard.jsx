@@ -10,7 +10,7 @@ const QuestCard = ({
   color = "primary-500",
   img = "ghost",
   isCompleted,
-  className = "h-[187px] max-h-[187px] min-w-[288px] w-[288px] max-w-[288px]",
+  className = "min-h-[224px] h-[224px] max-h-[224px] min-w-[288px] w-[288px] max-w-[288px]",
 }) => {
   const router = useRouter();
   const colorClass = `bg-${color}`;

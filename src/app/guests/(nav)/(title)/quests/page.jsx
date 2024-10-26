@@ -60,7 +60,7 @@ const QuestsPage = () => {
                 color={quest.color || undefined}
                 img={quest.image || undefined}
                 isCompleted={quest.is_completed}
-                className="min-w-full max-w-full w-full h-[187px] max-h-[187px]"
+                className="min-w-full max-w-full w-full min-h-[224px] h-[224px] max-h-[224px]"
               />
             ))
           ) : (
