@@ -6,8 +6,9 @@ export const getQuests = async ({body}) => {
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${body?.token}`,
-        },
+        "ngrok-skip-browser-warning": "true",
+        Authorization: `Bearer ${body?.token}`,
+      },
       });
   
       if (!response.ok) {
@@ -27,8 +28,9 @@ export const getQuests = async ({body}) => {
       const response = await fetch(apiUrl, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${body?.token}`,
-        },
+        "ngrok-skip-browser-warning": "true",
+        Authorization: `Bearer ${body?.token}`,
+      },
       });
   
       if (!response.ok) {

@@ -19,6 +19,7 @@ export const getEventData = async ({body}) => {
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${body?.token}`,
       },
     });

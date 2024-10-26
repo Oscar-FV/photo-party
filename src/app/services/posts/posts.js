@@ -6,6 +6,7 @@ export const getUserGallery = async ({ body }) => {
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${body?.token}`,
       },
     });
@@ -27,6 +28,7 @@ export const getQuestGallery = async ({ body }) => {
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${body?.token}`,
       },
     });
@@ -48,6 +50,7 @@ export const getEventPosts = async ({ body }) => {
     const response = await fetch(apiUrl, {
       method: "GET",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${body?.token}`,
       },
     });
@@ -73,6 +76,7 @@ export const savePhoto = async ({ body }) => {
     const response = await fetch(apiUrl, {
       method: "POST",
       headers: {
+        "ngrok-skip-browser-warning": "true",
         Authorization: `Bearer ${body?.token}`,
       },
       body: formData,
