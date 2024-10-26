@@ -144,6 +144,7 @@ const CompleteQuestsPage = () => {
                     loading={isSubmitting}
                     className={"bg-opacity-50 backdrop-blur-md"}
                     disabled={!imageSrc || !isValid || isSubmitting}
+                    type="submit"
                   >
                     Completar misión
                   </Button>
