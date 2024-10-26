@@ -77,7 +77,7 @@ const CompleteQuestsPage = () => {
         });
 
         if (postResponse) {
-          router.push(`/guests/quests/${quest_id}`);
+          router.push(`/guests/quests/${quest_id}/${true}`);
         }
       }
     } catch (error) {
