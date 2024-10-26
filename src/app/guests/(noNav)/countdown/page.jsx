@@ -1,7 +1,15 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
+import { useFetch } from "../../../../hooks/useFetch/useFetch";
+
 const CountdownPage = () => {
+
+  const [event, fetchEvent, loadingEvent] = useFetch({
+    functionFetch: 
+  })
+
+
   // Estado para almacenar los segundos restantes (ejemplo: 2 días)
   const [timeLeft, setTimeLeft] = useState(2 * 24 * 60 * 60); // 2 días en segundos
 
@@ -64,7 +72,7 @@ const CountdownPage = () => {
         </p>
       </div>
 
-      <div className="relative max-w-md w-full mb-20">
+      <div className="relative max-w-md w-full mb-5">
         <div className="absolute -inset-0.5 bg-info rounded-lg blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200 animate-pulse"></div>
         <div
           role="alert"

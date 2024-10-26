@@ -1,9 +1,9 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import jwt from "jsonwebtoken";
 import { URLSearchParams } from 'url';
 
 const APIURL = process.env.NEXT_PUBLIC_API_URL;
+let event_id = ""
 
 const authOptions = {
   providers: [
@@ -11,23 +11,27 @@ const authOptions = {
       name: "Credentials",
       async authorize(credentials) {
         try {
-          // Crear el cuerpo de la solicitud en formato x-www-form-urlencoded
           const formBody = new URLSearchParams();
-          formBody.append("username", credentials?.email || ""); // FastAPI espera el campo "username"
+          formBody.append("username", credentials?.email || "");
           formBody.append("password", credentials?.password || "");
 
-          const res = await fetch(`${APIURL}/users/login`, {
+          const res = await fetch(`${APIURL}/users/login?event_id=${credentials?.event_id}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/x-www-form-urlencoded",
             },
             body: formBody.toString(),
           });
+          event_id = credentials?.event_id
 
           const user = await res.json();
 
           if (res.ok && user) {
-            return user; // Se retorna el usuario recibido del backend
+            return {
+              accessToken: user.access_token,      
+              refreshToken: user.refresh_token,
+              tokenType: user.token_type,
+            };
           }
 
           return null;
@@ -39,18 +43,17 @@ const authOptions = {
     }),
   ],
   pages: {
-    signIn: "/auth/login", // Página personalizada para login
+    signIn: `/auth/login?event_id=${event_id}`,
   },
   callbacks: {
     async jwt({ token, user }) {
-      // Si el usuario inicia sesión por primera vez
       if (user) {
-        token.accessToken = user.jwt; // Guarda el accessToken del backend
-        token.refreshToken = user.refreshToken; // Guarda el refreshToken
-        token.accessTokenExpires = Date.now() + 30 * 60 * 1000; // Configura la expiración (30 minutos)
+        token.accessToken = user.accessToken;
+        token.refreshToken = user.refreshToken;
+        token.tokenType = user.tokenType;
+        token.accessTokenExpires = Date.now() + 30 * 60 * 1000;
       }
 
-      // Si el token ha expirado, refresca el accessToken
       if (Date.now() > token.accessTokenExpires) {
         try {
           const response = await fetch(`${APIURL}/users/refresh-token`, {
@@ -59,14 +62,15 @@ const authOptions = {
               "Content-Type": "application/json",
             },
             body: JSON.stringify({
-              refreshToken: token.refreshToken,
+              refresh_token: token.refreshToken,
             }),
           });
 
           const refreshedTokens = await response.json();
-          token.accessToken = refreshedTokens.jwt;
-          token.refreshToken = refreshedTokens.refreshToken;
-          token.accessTokenExpires = Date.now() + 30 * 60 * 1000; // Nueva expiración del accessToken
+          token.accessToken = refreshedTokens.access_token;
+          token.refreshToken = refreshedTokens.refresh_token;
+          token.tokenType = refreshedTokens.token_type;
+          token.accessTokenExpires = Date.now() + 30 * 60 * 1000;
         } catch (error) {
           console.error("Error al refrescar el token", error);
         }
@@ -77,13 +81,14 @@ const authOptions = {
     async session({ session, token }) {
       session.accessToken = token.accessToken;
       session.refreshToken = token.refreshToken;
+      session.tokenType = token.tokenType;
       return session;
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     strategy: "jwt",
-    maxAge: 30 * 60, // La sesión dura 30 minutos, lo mismo que el JWT
+    maxAge: 30 * 60,
   },
 };
 

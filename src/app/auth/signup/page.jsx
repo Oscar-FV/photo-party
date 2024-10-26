@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import * as Yup from "yup";
 import { Button } from "../../../common/atoms/button/Button";
@@ -16,6 +16,9 @@ const SignIn = () => {
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const event_id = searchParams.get("event_id");
+
   const [, setRegister, isRegistering] = useFetch({
     functionFetch: register,
     fetchInit: false,
@@ -25,7 +28,7 @@ const SignIn = () => {
     if (status == "authenticated") {
       redirect("/guests/countdown");
     }
-  }, [status, router]);
+  }, [status]);
 
   const handdleSignUp = async (values) => {
     setIsSubmitting(true);
@@ -33,7 +36,7 @@ const SignIn = () => {
       params: { email: values?.username, password: values?.password },
     });
     if (!registerResponse.ok) {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
       const errorData = await registerResponse.json();
       setShowAlert({
         show: true,
@@ -47,11 +50,12 @@ const SignIn = () => {
   };
 
   const handdleLogin = async (values) => {
-    const result = await signIn("credentials", {
+    await signIn("credentials", {
       redirect: false,
       redirectTo: "/guests/countdown",
       email: values?.username,
       password: values?.password,
+      event_id: event_id
     });
   };
 
@@ -66,17 +70,11 @@ const SignIn = () => {
         username: Yup.string().required("Este campo es obligatorio."),
         password: Yup.string()
           .min(8, "La contraseña debe tener al menos 8 caracteres.")
-          .matches(
-            /[A-Z]/,
-            "La contraseña debe tener al menos una letra mayúscula."
-          )
+          .matches(/[A-Z]/, "La contraseña debe tener al menos una letra mayúscula.")
           .matches(/[0-9]/, "La contraseña debe tener al menos un número.")
           .required("Este campo es obligatorio."),
         confirmpassword: Yup.string()
-          .oneOf(
-            [Yup.ref("password"), null],
-            "Las contraseñas deben coincidir."
-          )
+          .oneOf([Yup.ref("password"), null], "Las contraseñas deben coincidir.")
           .required("Por favor confirma tu contraseña."),
       })}
       onSubmit={handdleSignUp}

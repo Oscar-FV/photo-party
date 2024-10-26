@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { redirect, useRouter } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
 import * as Yup from "yup";
 import { Button } from "../../../common/atoms/button/Button";
@@ -13,7 +13,9 @@ const LoginPage = () => {
   const { setShowAlert } = useAlert();
   const { data: session, status } = useSession();
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const router = useRouter();
+  const router = useRouter();const searchParams = useSearchParams();
+  const event_id = searchParams.get("event_id");
+  console.log(event_id);
 
   useEffect(() => {
     if (status == "authenticated") {
@@ -28,6 +30,7 @@ const LoginPage = () => {
       redirectTo: "/guests/countdown",
       email: values?.username,
       password: values?.password,
+      event_id: event_id
     });
 
     if (result?.error) {
@@ -83,7 +86,7 @@ const LoginPage = () => {
             >
               ¡Que comience la fiesta!
             </Button>
-            <Button color="ghost" width="block" size={"xs"} className={"mt-3"} onClick={() => {router.push("/auth/signup")}}>
+            <Button color="ghost" width="block" size={"xs"} className={"mt-3"} onClick={() => {router.push(`/auth/signup?event_id=${event_id}`)}}>
               ¿Aún no tienes cuenta? ¡Registrate!
             </Button>
           </div>

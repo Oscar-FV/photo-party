@@ -6,7 +6,7 @@ import Dialog from "../../atoms/dialog/Dialog";
 const Gallery = ({ items }) => {
   return (
     <>
-      <div className="mb-5 grid grid-cols-3">
+      <div className="grid grid-cols-3 mb-16">
         <GalleryItem
           imgSrc={"https://picsum.photos/3024/4032"}
           imgCaption={"hola-mundo"}

@@ -1,5 +1,5 @@
 import React from "react";
-import AnimatedGradientText from "../../../common/atoms/animatedGradientText/AnimatedGradientText";
+import AnimatedGradientText from "../../../../common/atoms/animatedGradientText/AnimatedGradientText";
 import Image from "next/image";
 
 export default function PartyLayout({ children }) {

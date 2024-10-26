@@ -69,6 +69,7 @@ module.exports = {
           900: "#080808",
           950: "#050505",
         },
+        card: "#C44FFF"
       },
       backgroundImage: {
         "gradient-text":
